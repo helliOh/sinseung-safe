@@ -1,0 +1,105 @@
+<div class="schedule-wrapper">
+	<div class="schedule-bg"></div>
+	<table class="schedule card table-form1">
+		<thead>
+			<tr class="header">
+				<th class="prev-month"><span class="btn prev"></span></th>
+				<th class="curr-month">
+					<span class="year"></span>/
+					<span class="month"></span>
+				</th>
+				<th class="next-month"><span class="btn next"></span></th>
+			</tr>
+			<tr class="day">
+				<td data-day="0">Sun</td>
+				<td data-day="1">Mon</td>
+				<td data-day="2">Tue</td>
+				<td data-day="3">Wed</td>
+				<td data-day="4">Thur</td>
+				<td data-day="5">Fri</td>
+				<td data-day="6">Sat</td>
+			</tr>
+		</thead>
+		<tbody><!-- 날짜 데이터 입력 --></tbody>
+	</table>
+	<% if(user.mb_level <= 2){ %>
+		<div class="btn new-schd">
+			스케줄 작성
+		</div>
+	<% } %>
+
+	<div id="modal" class="schedule-details card">
+		<form class="schedule-data">
+			<table>
+				<thead>
+					<tr><th colspan="3" data-schd-contents>
+						<input type="hidden" name="schd_no">
+						<input type="text" name="schd_contents" disabled placeholder="일정 내용" autocomplete="off">
+					</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="14%">소속</td>
+						<td colspan="2" data-schd-company>
+							<select name="schd_company" disabled style="width: 100px; height: 26px;">
+								<% if(typeof company != 'undefined'){
+									for(let i in company.body){ %>
+									<option value="<%=company.body[i].value%>"><%=company.body[i].value%></option>
+								<% }
+								} %>
+							</select>
+						</td>
+					</tr>
+					<tr data-date>
+						<td width="14%">날짜</td>
+						<td width="43%" data-schd-start-date class="center-align relative">
+							<input type="date" name="schd_start_date" disabled>
+						</td>
+						<td width="43%" data-schd-end-date class="center-align">
+							<input type="date" name="schd_end_date" disabled>
+						</td>
+					</tr>
+					<tr data-time>
+						<td width="14%">시간</td>
+						<td width="43%" data-schd-start-time class="center-align">
+							<input type="time" name="schd_start_time" disabled>
+						</td>
+						<td width="43%" data-schd-end-time class="center-align">
+							<input type="time" name="schd_end_time" disabled>
+						</td>
+					</tr>
+					<tr>
+						<td width="14%">작성자</td>
+						<td colspan="2" data-schd-mb-name>
+							<input type="text" name="schd_mb_name" disabled>
+							<input type="hidden" name="schd_mb_no" value="">	
+						</td>
+					</tr>
+				</tbody>
+				<% if(user.mb_level <= 2){ %>
+				<tfoot>
+					<tr>
+						<td colspan="3">
+							<div class="btn delete left">삭제</div>
+							<div class="btn edit right">수정</div>
+							<input type="submit" class="btn save right" value="저장">
+						</td>
+					</tr>
+				</tfoot>
+				<% } %>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script src="/js/scheduler.js"></script>
+<script>
+	var year_range = 1;
+	var calendar = new Calendar(new Date(), year_range);
+	var scheduler = new Scheduler(calendar, 4);
+
+	scheduler.setDefaultUser(gUser);
+	<% if(typeof schedule !== 'undefined' && schedule.head.status){ %>
+		scheduler.setScheduleData(<%- JSON.stringify(schedule) %>);
+	<% } %>
+</script>

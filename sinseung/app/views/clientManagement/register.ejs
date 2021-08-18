@@ -1,0 +1,271 @@
+<div id="modal" class="card register">
+	<div class="header">
+		업체 등록/수정
+	</div>
+	<form class="client-register-form">
+		<input type="hidden" name="ci_no">
+		<div class="input-wrapper of-hi">
+			<div class="left necessary">
+				<h3>필수입력</h3>
+				<div class="input-row">
+					<label for="rg-company">소속</label>
+					<select name="ci_company" id="rg-company" data="소속">
+						<option value="" selected>선택</option>
+						<% for(let i in company.body){ %>
+						<option value="<%=company.body[i].value%>"><%=company.body[i].value%></option>
+						<% } %>
+					</select>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-classification">구분</label>
+						<select name="ci_classification" id="rg-classification" data="구분">
+							<option value="" selected disabled>선택</option>
+							<% if(typeof classification !== 'undefined'){ %>
+								<% for(i in classification.body){ %>
+									<option value="<%=classification.body[i].value%>"><%=classification.body[i].value%></option>
+								<% } %>
+							<% } %>
+						</select>	
+					</div>
+					<div class="left">
+						<label for="rg-db-type">DB종류</label>
+						<select name="ci_db_type" id="rg-db-type"data="DB종류">
+							<option value="" selected disabled>선택</option>
+						</select>
+					</div>
+				</div>
+				<div class="input-row">
+					<label for="rg-local-name">지회</label>
+					<input type="hidden" name="ci_local_name">
+					<select name="local_sido" class="necessary" style="margin-right: 10px;" data="지회">
+						<option value="" class="default" disabled selected>선택</option>
+						<% for(i in localType.body){ %>
+						<option value="<%=i%>"><%=i%></option>
+						<% } %>
+					</select>
+					<select name="local_sigungu">
+						<option value="" class="default" selected>전체</option>
+					</select>
+				</div>
+				<div class="input-row">
+					<label for="rg-sign-date">신청일</label>
+					<input type="date" name="ci_sign_date" data="신청일">
+				</div>
+				<div class="input-row">
+					<label for="rg-manager">담당</label>
+					<div class="member-find-btn necessary" data="manager"></div>
+					<input type="hidden" name="ci_manager" placeholder="담당" autocomplete="off" class="necessary" data="담당">
+					<input type="hidden" name="ci_manager_no">
+					<input type="hidden" name="ci_pre_manager">
+					<input type="hidden" name="ci_pre_manager_no">
+				</div>
+			</div>
+			<div class="left">
+				<h3>업체정보</h3>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-client">업체명</label>
+						<input type="text" name="ci_client">
+					</div>
+					<div class="left">
+						<label for="rg-representive">대표</label>
+						<input type="text" name="ci_representive">
+					</div>
+					<div class="left">
+						<label for="rg-ent-no">사업자등록번호</label>
+						<input type="number" name="ci_ent_no">
+					</div>
+				</div>
+				<div class="input-row">
+					<label for="rg-address">주소</label>
+					<input type="text" name="ci_address">
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-tel">일반전화</label>
+						<input type="number" name="ci_tel">	
+					</div>
+					<div class="left">
+						<label for="rg-mobile">핸드폰</label>
+						<input type="number" name="ci_mobile">	
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-cms-no">회원번호(CMS)</label>
+						<input type="number" name="ci_cms_no" id="rg-cms-no">
+					</div>
+					<div class="left">
+						<label for="rg-companion">동행</label>
+						<div class="member-find-btn" data="companion"></div>
+						<input type="hidden" name="ci_companion" id="rg-companion">
+						<input type="hidden" name="ci_companion_no">
+					</div>
+					<div class="left">
+						<label for="rg-local-manager">지회담당자</label>
+						<div class="member-find-btn" data="local_manager"></div>
+						<input type="hidden" name="ci_local_manager" id="rg-local-manager">
+						<input type="hidden" name="ci_local_manager_no">
+					</div>
+				</div>
+
+				<div class="divider"></div>
+
+				<h3>계약관련</h3>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-contract-date">계약일</label>
+						<input type="date" name="ci_contract_date" id="rg-contract-date">
+					</div>
+					<div class="left">
+						<label for="rg-contract">계약금액</label>
+						<input type="number" name="ci_contract" id="rg-contract">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-setting-date">세팅일</label>
+						<input type="date" name="ci_setting_date" id="rg-setting-date">
+					</div>
+					<div class="left">
+						<label for="rg-setting">세팅금액</label>
+						<input type="number" name="ci_setting" id="rg-setting">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-manage-date">관리일</label>
+						<input type="date" name="ci_manage_date" id="rg-manage-date">
+					</div>
+					<div class="left">
+						<label for="rg-manage-fee">관리금액</label>
+						<input type="number" name="ci_manage_fee" id="rg-manage-fee">
+					</div>
+				</div>
+				<div class="input-row">
+					<label for="rg-transfer-date">이체일</label>
+					<input type="date" name="ci_transfer_date" id="rg-transfer-date" style="width: 125px;">
+				</div>
+
+				<div class="divider"></div>
+
+				<h3>교육관련</h3>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-harassment-date">성희롱예방교육</label>
+						<input type="date" name="ci_harassment_date" id="rg-harassment-date">
+					</div>
+					<div class="left">
+						<label for="rg-harassment">금액</label>
+						<input type="number" name="ci_harassment" id="rg-harassment">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-info-date">개인정보보호교육</label>
+						<input type="date" name="ci_info_date" id="rg-info-date">
+					</div>
+					<div class="left">
+						<label for="rg-info">금액</label>
+						<input type="number" name="ci_info" id="rg-info">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-disabled-date">장애인인식개선교육</label>
+						<input type="date" name="ci_disabled_date" id="rg-disabled-date">
+					</div>
+					<div class="left">
+						<label for="rg-disabled">금액</label>
+						<input type="number" name="ci_disabled" id="rg-disabled">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-safety-date">산업안전보건교육</label>
+						<input type="date" name="ci_safety_date" id="rg-safety-date">
+					</div>
+					<div class="left">
+						<label for="rg-safety">금액</label>
+						<input type="number" name="ci_safety" id="rg-safety">
+					</div>
+				</div>
+
+				<div class="divider"></div>
+
+				<h3>기타</h3>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-retirement-date">퇴직연금</label>
+						<input type="date" name="ci_retirement_date" id="rg-retirement-date">
+					</div>
+					<div class="left">
+						<label for="rg-retirement">금액</label>
+						<input type="number" name="ci_retirement" id="rg-retirement">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-attorney-date">사건수임</label>
+						<input type="date" name="ci_attorney_date" id="rg-attorney-date">
+					</div>
+					<div class="left">
+						<label for="rg-attorney">금액</label>
+						<input type="number" name="ci_attorney" id="rg-attorney">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-emp-rule-date">취업규칙</label>
+						<input type="date" name="ci_emp_rule_date" id="rg-emp-rule-date">
+					</div>
+					<div class="left">
+						<label for="rg-emp-rule">금액</label>
+						<input type="number" name="ci_emp_rule" id="rg-emp-rule">
+					</div>
+				</div>
+				<div class="input-row of-hi">
+					<div class="left">
+						<label for="rg-insurance-date">4대보험</label>
+						<input type="date" name="ci_insurance_date" id="rg-insurance-date">
+					</div>
+					<!--
+					<div class="left">
+						<label for="rg-insurance">금액</label>
+						<input type="number" name="ci_insurance" id="rg-insurance">
+					</div>-->
+				</div>
+
+				<div class="divider"></div>
+
+				<h3>첨부파일 <span class="append-file-btn">추가</span></h3>
+				<div class="attachments">
+					<!-- file upload input -->
+					<!--
+					<div class="input-row">
+						<input type="text" name="file-name" class="file" placeholder="파일명"/>
+						<div class="btn upload-file-btn"></div>
+						<input type="hidden" name="file-url"/>
+					</div>		
+					-->
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="btn submit client-register-btn modal-close-btn">취소</div>
+			<input type="submit" class="btn submit client-register-btn" value="저장">
+		</div>
+	</form>
+</div>
+
+
+<input type="file" name="fileSource" style="display: none;">
+
+<div class="select-row card">
+	<div class="name"></div>
+	<div class="item edit-client">업체정보 수정</div>
+	<% if(user.mb_level == 1){ %>
+	<div class="item log">이력보기</div>
+	<% } %>
+</div>

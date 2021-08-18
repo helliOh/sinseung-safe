@@ -1,0 +1,193 @@
+<form class="client-search-form card">
+	<table class="table-form1">
+		<thead>
+			<tr class="left-align">
+				<th colspan="10"><i class="xi-search"></i>검색</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="10" class="of-hi">
+					<div class="left close-padding">
+						<h5>계약상태</h5>
+						<select name="ci_status">
+							<option value="" class="default" selected hidden>전체</option>
+							<option value="계약">계약</option>
+							<option value="미계약">미계약</option>
+							<option value="해지">해지</option>
+						</select>
+					</div>
+					<div class="left">
+						<h5>결과</h5>	
+						<input type="text" name="ci_result" placeholder="결과">
+					</div>
+					<div class="left close-padding">
+						<h5>구분</h5>
+						<select name="ci_classification">
+							<option value="" class="default" selected disabled hidden>선택</option>
+							<% if(typeof classification !== 'undefined'){ %>
+								<% for(i in classification.body){ %>
+									<option value="<%=classification.body[i].value%>"><%=classification.body[i].value%></option>
+								<% } %>
+							<% } %>
+						</select>
+					</div>
+					<div class="left close-padding">
+						<h5>DB종류</h5>
+						<input type="text" name="ci_db_type" placeholder="DB종류">
+					</div>
+					<div class="left">
+						<h5>지회</h5>
+						<input type="text" name="ci_local_name" placeholder="지회">
+					</div>
+
+					<div class="left close-padding">
+						<h5>업체</h5>
+						<input type="text" name="ci_client" placeholder="업체명">
+					</div>
+					<div class="left close-padding">
+						<h5>대표명</h5>
+						<input type="text" name="ci_representive" placeholder="대표명">
+					</div>
+					<div class="left close-padding">
+						<h5>주소</h5>
+						<input type="text" name="ci_address" placeholder="주소">
+					</div>
+					<div class="left close-padding">
+						<h5>사업자등록번호</h5>
+						<input type="number" name="ci_ent_no" placeholder="사업자등록번호" maxlength="10">
+					</div>
+					<div class="left">
+						<h5>핸드폰</h5>
+						<input type="number" maxlength="11" name="ci_mobile" placeholder="핸드폰">
+					</div>
+					<div class="left">
+						<h5>담당</h5>
+						<input type="text" name="ci_manager" placeholder="담당">
+					</div>
+				</td>
+			</tr>
+			<tr class="details">
+				<td colspan="10" class="of-hi">
+					<% if(user.mb_level <= 2){ %>
+					<div class="left">
+						<h5>소속</h5>
+						<select name="ci_company">
+							<option value="" selected>전체</option>
+							<% for(let i in company.body){ %>
+							<option value="<%=company.body[i].value%>"><%=company.body[i].value%></option>
+							<% } %>
+						</select>
+					</div>
+					<% } %>
+					<div class="left close-padding">
+						<h5>세팅계약일</h5>
+						<input type="month" name="ci_setting_date">
+					</div>
+					<div class="left">
+						<h5>관리계약일</h5>
+						<input type="month" name="ci_manage_date">
+					</div>
+
+					<div class="left close-padding2">
+						<h5>퇴직연금</h5>
+						<div class="checkbox">
+							<input type="hidden" name="retirement" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>사건수임</h5>
+						<div class="checkbox">
+							<input type="hidden" name="attorney" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>취업규칙</h5>
+						<div class="checkbox">
+							<input type="hidden" name="emp_rule" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>성희롱예방교육</h5>
+						<div class="checkbox">
+							<input type="hidden" name="harassment" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>산업안전보건교육</h5>
+						<div class="checkbox">
+							<input type="hidden" name="safety" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>장애인인식개선교육</h5>
+						<div class="checkbox">
+							<input type="hidden" name="disabled" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>개인정보보호교육</h5>
+						<div class="checkbox">
+							<input type="hidden" name="info" value="0">
+						</div>
+					</div>
+					<div class="left close-padding2">
+						<h5>4대보험</h5>
+						<div class="checkbox">
+							<input type="hidden" name="insurance" value="0">
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="10" class="details-btn" onclick="onclickDetailsBtn('.client-search-form')">펼치기<i class="xi-caret-down"></i></th>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<div class="btn submit refresh"><i class="xi-refresh"></i>초기화</div>
+					<% if(user.mb_level <= 2){ %>
+					<div class="btn submit client-register-btn modal-open-btn"><i class="xi-plus"></i>신규등록</div>
+					<% } %>
+				</td>
+				<td colspan="5" class="right-align">
+					<input type="submit" class="btn submit" value="조회">
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+
+<table id="modal" class="find-member table-form1 card">
+	<thead>
+		<tr><th colspan="3" class="left-align">회원찾기</th></tr>
+		<tr><td colspan="3">
+			<form>
+				<input type="text" name="mb_name" placeholder="회원명" autocomplete="off">
+				<input type="submit" value="찾기">
+			</form>
+		</td></tr>
+		<tr class="header">
+			<td width="20%">회원명</td>
+			<td width="40%">아이디</td>
+			<td width="40%">이메일</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="result-row blank">
+			<td colspan="3">검색 결과가 없습니다.</td>
+		</tr>
+	</tbody>
+</table>
+
+<script>
+	$('.client-search-form .checkbox').click(function(){
+		$(this).toggleClass('active');
+
+		if($(this).hasClass('active'))
+			$(this).find('input').val(1);
+		else
+			$(this).find('input').val(0);
+	});
+</script>

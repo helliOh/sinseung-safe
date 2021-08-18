@@ -1,0 +1,19 @@
+<% var rootPath = './'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<section id="login">
+	<form action="/login" method="post">
+		<div class="bar"></div>
+		<div class="logo"></div>
+		<div class="input-wrapper">
+			<input type="text" minlength="5" name="id" placeholder="아이디" autocomplete="off">
+			<input type="password" name="password" placeholder="비밀번호" autocomplete="off">
+			<input type="submit" class="btn submit" value="로그인">
+			<div class="signup left-align">
+				<a href="/signup">회원가입</a>
+				<span class="divider">|</span>
+				<a href="#">아이디/비밀번호 찾기</a>
+			</div>
+		</div>
+	</form>
+</section>
+<%- include(rootPath+'parts/tail.ejs'); %>

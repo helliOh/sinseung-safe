@@ -1,0 +1,59 @@
+<div class="incometax-table-wrapper">
+	<div class="left">
+		<div class="header incometax-table-header">
+			소득세율 적용 일자: <span></span>
+			<input type="hidden" name="date">
+		</div>
+		<table class="incometax-table card table-form2">
+			<thead>
+				<tr>
+					<th colspan="2">월급여액(천원)</th>
+					<th colspan="11">공제대상 가족 수</th>
+				</tr>
+				<tr>
+					<th>이상</th>
+					<th>미만</th>
+					<th>1</th>
+					<th>2</th>
+					<th>3</th>
+					<th>4</th>
+					<th>5</th>
+					<th>6</th>
+					<th>7</th>
+					<th>8</th>
+					<th>9</th>
+					<th>10</th>
+					<th>11</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- commission data -->
+			</tbody>
+		</table>
+
+		<div class="btn table-btn delete">삭제</div>
+	</div>
+	<div class="left">
+		<div class="header">소득세율 변경 내역</div>
+		<table class="log-table card table-form2">
+			<thead>
+				<tr>
+					<th>변경 일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- log data -->
+			</tbody>
+		</table>
+		<div class="btn table-btn create">신규작성</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div id="modal" class="upload-incometax card">
+	<form>
+		<input type="date" name="date">
+		<input type="file" name="file">
+		<input type="submit" class="btn submit" value="업로드">
+	</form>
+</div>

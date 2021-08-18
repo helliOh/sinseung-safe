@@ -1,0 +1,116 @@
+<% var rootPath = '../'; 
+	let boardName = {
+		'notice': '공지사항',
+		'qna': 'Q&A',
+		'archive': '자료실',
+	};
+	let boardTitle;
+	if(id == 'new')
+		boardTitle = '새 글 쓰기';
+	else
+		boardTitle = "글 수정";
+%>
+<% 
+	if(id !='new'){
+		if(user.mb_no != article.bd_mb_no && user.mb_level > 2){ %>
+			<script>location.href = history.back();</script>
+<% 		}
+	} 
+%>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section id="board">
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="#">게시판</a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/board/<%=category%>"><%=boardName[category]%></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/board/<%=category%>/<%=id%>/edit"><%=id%></a>
+	</div>
+	<div class="article-wrapper">
+		<article>
+			<h1 class="card"><%=boardTitle%></h1>
+			<div class="table-wrapper card">
+				<form class="edit-board">
+				<table class="board-article">
+					<thead>
+						<tr>
+							<th colspan="2" data-title>
+								<input type="text" name="bd_name" placeholder="제목작성" autocomplete="off">
+								<span>
+									상단고정 
+									<input name="bd_head_anchor" type="checkbox">
+								</span>
+								<input type="hidden" name="bd_no" value="">
+							</th>
+						</tr>
+						<tr>
+							<th width="10%">분류</th>
+							<th class="left-align" data-category>
+								<input type="text" value="<%=boardName[category]%>" disabled>
+								<input type="hidden" name="bd_category" value="<%=boardName[category]%>">
+							</th>
+						</tr>
+						<tr>
+							<th width="10%">작성일</th>
+							<th>
+								<input type="text" name="created_at" disabled>
+							</th>
+						</tr>
+						<tr>
+							<th width="10%">작성자</th>
+							<th class="left-align" data-writer>
+								<input type="text" name="mb_name" disabled>
+								<input type="hidden" name="bd_mb_name">
+								<input type="hidden" name="bd_mb_no">
+							</th>
+						</tr>
+						<% if(category == 'archive'){ %>
+						<tr>
+							<th width="10%">첨부파일</th>
+							<th class="left-align" data-files></th>
+						</tr>
+						<input type="file" name="fileSource" style="display: none;">
+						<% } %>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2" data-content>
+								<%- include('editor.ejs'); %>
+								<input type="hidden" name="bd_contents">
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="of-hi">
+								<a href="/board/<%=category%>">
+									<div class="btn list">
+										<i class="xi-bars"></i>
+										목록으로
+									</div>
+								</a>
+								<div class="btn submit right">
+									작성
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				</form>
+			</div>
+		</article>
+	</div>
+</section>
+
+<script src="/js/board/edit.js"></script>
+<script>
+	$(document).ready(function(){
+		let e = new Editor('<%=category%>','<%=id%>', gUser, <%- JSON.stringify(article); %>);
+	});
+</script>
+
+<%- include(rootPath+'parts/tail.ejs'); %>

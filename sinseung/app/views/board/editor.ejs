@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="/css/quill/quill.snow.css">
+
+<div id="standalone-container">
+	<div id="toolbar-container">
+		<span class="ql-formats">
+			<select class="ql-font"></select>
+			<select class="ql-size"></select>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-bold"></button>
+			<button class="ql-italic"></button>
+			<button class="ql-underline"></button>
+			<button class="ql-strike"></button>
+		</span>
+		<span class="ql-formats">
+			<select class="ql-color"></select>
+			<select class="ql-background"></select>
+		</span>
+		<!--
+		<span class="ql-formats">
+			<button class="ql-script" value="sub"></button>
+			<button class="ql-script" value="super"></button>
+		</span>
+		-->
+		<span class="ql-formats">
+			<button class="ql-header" value="1"></button>
+			<button class="ql-header" value="2"></button>
+			<button class="ql-blockquote"></button>
+			<!--
+			<button class="ql-code-block"></button>
+			-->
+		</span>
+		<span class="ql-formats">
+			<button class="ql-list" value="ordered"></button>
+			<button class="ql-list" value="bullet"></button>
+			<button class="ql-indent" value="-1"></button>
+			<button class="ql-indent" value="+1"></button>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-direction" value="rtl"></button>
+			<select class="ql-align"></select>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-link"></button>
+			<button class="ql-image"></button>
+			<button class="ql-video"></button>
+			<!--
+			<button class="ql-formula"></button>
+			  -->
+		</span>
+		<!--
+		<span class="ql-formats">
+			<button class="ql-clean"></button>
+		</span>
+	-->
+	</div>
+	<div id="editor-container" style="min-height: 200px;"></div>
+</div>
+<!--
+<form id="quill-form-data" enctype="multipart/form-data" action="./server/fileUpload.php" method="POST" hidden>
+    <input type="file" name="userfile" id="userfile">
+    <input type="hidden" name="filepath" value="temp/">
+    <input type="submit">
+</form>
+-->
+<script src="/js/quill/katex.min.js"></script>
+<script src="/js/quill/highlight.min.js"></script>
+<script src="/js/quill/quill.min.js"></script>
+
+<script>
+	var imgList = [];
+	var imgCount = 0;
+
+	const editor = new Quill('#editor-container', {
+		bounds: "#editor-container",
+		modules: {
+			formula: true,
+			syntax: true,
+			toolbar: '#toolbar-container'
+		},
+		placeholder: '내용을 작성해주세요...',
+		theme: 'snow',
+	});
+
+	$('#editor-container').click(function(){
+		$('.ql-editor').focus();
+	});
+	/*
+	editor.getModule("toolbar").addHandler("image", imgHandler);
+
+	function imgHandler(){
+		$input = $('<input type="file" hidden/>');
+		$input.click();
+		$input.change(function(){
+			const file = this.files[0];
+
+			if (/^image\//.test(file.type)) {
+				var fd = new FormData();
+				fd.append('userfile',file);
+				fd.append('path','images/');
+
+				var http = new XMLHttpRequest();
+				http.open("POST",'/server/imgUpload',true);
+				http.send(fd);
+
+				http.onreadystatechange = () => {
+		            if (http.readyState === 4) {
+		                if (http.status === 200) {
+		                	// append to quill textarea
+		                    $('.ql-editor').append('<img src="'+http.responseText+'"/>');
+		                    // append to form
+		                    $('form#post').append('<input type="hidden" name="images[]" value="'+http.responseText+'"/>');
+		                } else if (http.status === 500)
+		                    alert(http.responseText);
+		                else
+		                    alert(http.responseText);
+		            }
+		        };
+
+			} else {
+			  	alert('이미지 파일만 업로드 가능합니다.');
+			  	$(this).val('');
+			}
+		})
+	};
+	*/
+
+</script>

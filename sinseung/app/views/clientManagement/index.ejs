@@ -1,0 +1,67 @@
+<% var rootPath = '../'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section id="client-management">
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="#">업체관리</a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/db/client/search">계약조회</a>
+	</div>
+	<div class="article-wrapper">
+		<article>
+			<h1 class="card">계약조회</h1>
+
+			<!-- client search form & member search form -->
+			<%- include(rootPath+'clientManagement/search.ejs'); %>
+			<!-- column filter -->
+			<%- include(rootPath+'clientManagement/column-filter.ejs'); %>
+			<!-- client search result table -->
+			<%- include(rootPath+'clientManagement/result.ejs'); %>
+			<!-- result table pagination -->
+			<%- include(rootPath+'parts/table-pagination.ejs'); %>
+
+			<div class="btn export-excel">엑셀로 내보내기</div>
+		</article>
+	</div>
+
+	<!-- client register modal(new & edit) and client select form -->
+	<%- include(rootPath+'clientManagement/register.ejs'); %>
+</section>
+
+<script src="/js/clientManagement.js"></script>
+<script>
+	let cm = new ClientManagement();
+
+	<% if(typeof user !== 'undefined'){ %>
+		cm.updateCurrentUserData(<%- JSON.stringify(user); %>);
+	<% } %>
+
+	<% if(typeof info !== 'undefined'){ %>
+		cm.updateClientData(<%- JSON.stringify(info.body); %>);
+	<% } %>
+
+	<% if(typeof localType !== 'undefined'){ %>
+		cm.updateLocalData(<%- JSON.stringify(localType.body); %>);
+	<% } %>
+
+	<% if(typeof DBType !== 'undefined'){ %>
+		cm.updateDBTypeData(<%- JSON.stringify(DBType.body); %>);
+	<% } %>	
+
+	<% if(typeof ent_no !== 'undefined'){ %>
+		cm.updateEntData(<%- JSON.stringify(ent_no.body); %>);
+	<% } %>			
+</script>
+
+<script>
+	// client search & column filter details button function
+	function onclickDetailsBtn(ele){
+		$(ele).find('.details-btn').toggleClass('active');
+		$(ele).find('.details').toggleClass('active');
+	}
+</script>
+
+<%- include(rootPath+'parts/tail.ejs'); %>

@@ -1,0 +1,62 @@
+<nav>
+	<div class="menu more">
+		<div class="main">업체관리<i class="xi-caret-down-circle-o"></i></div>
+		<div class="sub">
+			<a href="/client/search"><div class="item">계약조회</div></a>
+		</div>
+	</div>
+
+	<div class="divider"></div>
+
+	<div class="menu more">
+		<div class="main">결제관리<i class="xi-caret-down-circle-o"></i></div>
+		<div class="sub">
+			<a href="/payment/overdue"><div class="item">연체조회</div></a>
+			<% if(typeof user !== 'undefined' && user.mb_level == 1){ %>
+			<a href="/payment/upload"><div class="item">파일 업로드</div></a>
+			<% } %>
+		</div>
+	</div>
+
+	<div class="divider"></div>
+
+	<a href="/commission"><div class="menu">
+		<div class="main">수수료관리</div>
+	</div></a>
+
+	<div class="divider"></div>
+
+	<div class="menu more">
+		<div class="main">게시판<i class="xi-caret-down-circle-o"></i></div>
+		<div class="sub">
+			<a href="/board/notice"><div class="item">공지사항</div></a>
+			<a href="/board/qna"><div class="item">Q&A</div></a>
+		</div>
+	</div>
+
+	<% if(typeof user !== 'undefined' && user.mb_level == 1){ %>
+	<!-- 관리자 모드 -->
+	<div class="divider"></div>
+
+	<a href="/board/archive"><div class="menu">
+		<div class="main">자료실</div>
+	</div></a>
+
+	<div class="divider"></div>
+
+	<div id="administrator" class="menu more">
+		<div class="main bold"></i>시스템<i class="xi-caret-down-circle-o"></i></div>
+		<div class="sub">
+			<a href="/admin/member"><div class="item">회원관리</div></a>
+			<a href="/admin/db/client"><div class="item">DB관리</div></a>
+		</div>
+	</div>
+	<% } %>
+</nav>
+
+<script>
+	$('.menu.more .main').click(function(){
+		$(this).toggleClass('active');
+		$(this).parent().find('.sub').toggleClass('active');
+	})
+</script>

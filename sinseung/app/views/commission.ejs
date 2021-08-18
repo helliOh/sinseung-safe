@@ -1,0 +1,181 @@
+<% var rootPath = './'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section>
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/commission">수수료관리</a>
+	</div>
+	<div class="article-wrapper">
+		<article id="commission">
+			<h1 class="card">수수료관리</h1>
+			<div class="content-wrapper">
+				<div class="search-table-wrapper left">
+					<h2 class="card">내역 조회</h2>
+					<table class="search-table card" <% if(user.mb_level > 3){ %> style="width: 200px;" <% } %>>
+						<thead>
+							<tr>
+								<th width="40%">년월</th>
+								<% if(user.mb_level <= 3){ %>
+								<th width="40%">담당</th>
+								<% } %>
+								<th width="20%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="center-align">
+								<td>
+									<input type="month" name="date-month">
+								</td>
+								<% if(user.mb_level <= 3){ %>
+								<td>
+									<div class="member-find-btn"></div>
+									<input type="hidden" name="mb_no" value="">
+								</td>
+								<% } %>
+								<td>
+									<input type="submit" class="btn submit" value="검색">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="specification-table-wrapper left">
+					<h2 class="card">명세표</h2>
+					<table class="specification-table card center-align">
+						<thead>
+							<tr>
+								<th colspan="4" data-title>급여명세표</th>
+							</tr>
+							<tr>
+								<th>소득구분</th>
+								<th data-income-class></th>
+								<th>사원명</th>
+								<th data-member-name></th>
+							</tr>
+							<tr>
+								<th colspan="2">소득내역</th>
+								<th colspan="2">공제내역</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- append income & deduction list -->
+							<!--
+							<tr data="income">
+								<td data="category">세팅비</td>
+								<td data="amount">500,000</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr data="income">
+								<td data="category">관리비</td>
+								<td data="amount">250,000</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr data="income">
+								<td data="category">강의비</td>
+								<td data="amount">300,000</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr data="deduction">
+								<td></td>
+								<td></td>
+								<td data="category">소득세</td>
+								<td data="amount">105,000</td>
+							</tr>
+							<tr data="deduction">
+								<td></td>
+								<td></td>
+								<td data="category">지방세</td>
+								<td data="amount">10,500</td>
+							</tr>
+							<tr data="deduction">
+								<td></td>
+								<td></td>
+								<td data="category">세금합</td>
+								<td data="amount">100,000</td>
+							</tr>
+						-->
+						</tbody>
+						<tfoot>
+							<tr data="sum">
+								<td>소득합계</td>
+								<td data="total-income-amount"></td>
+								<td>공제합</td>
+								<td data="total-deduction-amount"></td>
+							</tr>
+							<tr class="total">
+								<td colspan="2">실수령액</td>
+								<td colspan="2" data="actual-income-amount"></td>
+							</tr>
+						</tfoot>
+					</table>
+					<div class="btn export-excel specification" style="padding: 0 10px;">엑셀로 내보내기</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="content-wrapper">
+				<div class="history-table-wrapper">
+					<h2 class="card">입금내역</h2>
+					<table class="history card center-align">
+						<thead>
+							<tr>
+								<th>분류</th>
+								<th data-client>적요</th>
+								<th>구분</th>
+								<th>DB종류</th>
+								<th data-baseline>대표</th>
+								<th>입금액</th>
+								<th>기본공제</th>
+								<th>중앙회</th>
+								<th>POS</th>
+								<th>프로그램</th>
+								<th>단장</th>
+								<th>회사</th>
+								<th>담당금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- append data -->
+						</tbody>
+					</table>
+					<div class="btn export-excel history" style="padding: 0 10px;">엑셀로 내보내기</div>
+				</div>
+			</div>
+		</article>
+	</div>
+</section>
+
+<table id="modal" class="find-member card table-form1">
+	<thead>
+		<tr><th colspan="3" class="left-align">회원찾기</th></tr>
+		<tr><td colspan="3">
+			<form>
+				<input type="text" name="mb_name" placeholder="회원명" autocomplete="off">
+				<input type="submit" value="찾기">
+			</form>
+		</td></tr>
+		<tr class="header">
+			<td width="20%">회원명</td>
+			<td width="40%">아이디</td>
+			<td width="40%">이메일</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="result-row blank">
+			<td colspan="3">검색 결과가 없습니다.</td>
+		</tr>
+	</tbody>
+</table>
+
+<script src="/js/commission.js"></script>
+<script>
+	gInitMemberFindBtn();
+	let commission = new Commission(gUser);
+</script>
+
+<%- include(rootPath+'parts/tail.ejs'); %>

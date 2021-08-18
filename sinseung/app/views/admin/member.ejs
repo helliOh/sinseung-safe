@@ -1,0 +1,235 @@
+<% var rootPath = '../'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section>
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="#">시스템</a>
+		<i class="xi-angle-right-min"></i>
+		<a href="#">회원관리</a>
+	</div>
+	<div class="article-wrapper">
+		<article id="admin-member">
+			<h1 class="card">회원관리</h1>
+			<div class="table-wrapper">
+				<form id="set-member-auth">
+					<table class="table-form1 card auth-table">
+						<thead>
+							<tr class="left-align">
+								<th colspan="10">가입 미승인 회원</th>
+							</tr>
+							<tr>
+								<td>선택</td>
+								<td>번호</td>
+								<td>이름</td>
+								<td>아이디</td>
+								<td>이메일</td>
+								<td>가입일</td>
+								<td>소속</td>
+								<td>직책</td>
+								<td>소득구분</td>
+								<td>회원권한</td>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- member data -->
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="10" class="right-align of-hi">
+									<div class="left btn check-all">전체선택</div>
+									<div class="left btn clear-all">선택해제</div>
+									<input type="submit" class="right btn" value="일괄승인">
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+
+				<form id="search-query">
+					<table class="table-form1 card query-table">
+						<thead>
+							<tr>
+								<th class="left-align" colspan="10">
+									<i class="xi-search"></i>검색조건
+								</th>
+							</tr>
+							<tr>
+								<td>번호</td>
+								<td>이름</td>   
+								<td>아이디</td>
+								<td>이메일</td>
+								<td>가입일</td>
+								<td>소속</td>
+								<td>직책</td>
+								<td>소득구분</td>
+								<td>회원권한</td>
+								<td>승인</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input autocomplete="off" type="number" name="mb_no" placeholder="번호">
+								</td>
+								<td>
+									<input autocomplete="off" type="text" name="mb_name" placeholder="이름">
+								</td>
+								<td>
+									<input autocomplete="off" type="text" name="mb_id" placeholder="아이디">
+								</td>
+								<td>
+									<input autocomplete="off" type="text" name="mb_email" placeholder="이메일">
+								</td>
+								<td>
+									<input autocomplete="off" type="date" name="created_at" placeholder="가입일">
+								</td>
+								<td>
+									<select name="mb_company">
+										<option value="" class="default" selected>전체</option>
+										<% for(let i in dataPackage.company.body){ %>
+											<option value="<%=dataPackage.company.body[i].value%>"><%=dataPackage.company.body[i].value%></option>
+										<% } %>
+									</select>
+								</td>
+								<td>
+									<input type="text" name="mb_position" placeholder="직책">
+								</td>
+								<td>
+									<input type="text" name="mb_income_class" placeholder="소득구분">
+								</td>
+								<td>
+									<select name="mb_level">
+										<option value="" class="default" selected>전체</option>
+										<option value="1">1단계</option>
+										<option value="2">2단계</option>
+										<option value="3">3단계</option>
+										<option value="4">4단계</option>
+										<option value="5">5단계</option>
+									</select>
+								</td>
+								<td>
+									<select name="mb_auth">
+										<option value="" class="default" selected>전체</option>
+										<option value="0">미승인</option>
+										<option value="1">승인</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="10" class="of-hi">
+									<div class="btn clear-all left">초기화</div>
+									<input type="submit" class="right btn" value="검색">
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+
+				<table class="table-form1 card member-table">
+					<thead>
+						<tr class="left-align"><th colspan="11">회원목록</th></tr>
+						<tr>
+							<td data-no>번호</td>
+							<td data-name>이름</td>
+							<td data-id>아이디</td>
+							<td data-email>이메일</td>
+							<td data-created-at>가입일</td>
+							<td data-company>소속</td>
+							<td data-position>직책</td>
+							<td data-income-class>소득구분</td>
+							<td data-level>회원권한</td>
+							<td data-auth>승인</td>
+							<td data-password-reset>비밀번호 초기화</td>
+						</tr>
+					</thead>
+					<tbody><!-- member --></tbody>
+				</table>
+				<!-- result table pagination -->
+				<%- include(rootPath+'parts/table-pagination.ejs'); %>
+			</div>
+
+			<div class="select-row card">
+				<div class="name"></div>
+				<div class="item edit-member">회원정보 수정</div>
+				<div class="item withdraw-member">회원탈퇴</div>
+			</div>
+			<div id="modal" class="member-edit-modal card">
+				<!-- 기존 회원정보 복사 -->
+				<form id="member-edit">
+					<input type="hidden" name="mb_no">
+					<table class="table-form1">
+						<thead>
+							<tr class="left-align">
+								<th colspan="2">회원정보 수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>이름</th>
+								<td><input type="text" name="mb_name"></td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td><input type="email" name="mb_email"></td>
+							</tr>
+							<tr>
+								<th>소속</th>
+								<td>
+									<select name="mb_company">
+										<% for(let i in dataPackage.company.body){ %>
+											<option value="<%=dataPackage.company.body[i].value%>"><%=dataPackage.company.body[i].value%></option>
+										<% } %>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>직책</th>
+								<td><input type="text" name="mb_position"></td>
+							</tr>
+							<tr>
+								<th>소득구분</th>
+								<td>
+									근로소득<input type="radio" name="mb_income_class" value="근로소득">
+									사업소득<input type="radio" name="mb_income_class" value="사업소득">
+								</td>
+							</tr>
+							<tr>
+								<th>회원권한</th>
+								<td>
+									<select name="mb_level">
+										<option value="1">1단계</option>
+										<option value="2">2단계</option>
+										<option value="3">3단계</option>
+										<option value="4">4단계</option>
+										<option value="5">5단계</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" class="of-hi">
+									<div class="btn left cancel">취소</div>
+									<input type="submit" class="btn right save" value="저장">
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+			</div>
+		</article>
+	</div>
+</section>
+
+<script src="/js/db/member.js"></script>
+<script>
+	<% if(typeof dataPackage !== 'undefined'){ %>
+		var member = new Member(<%- JSON.stringify(dataPackage)%>);
+	<% } %>
+</script>
+<%- include(rootPath+'parts/tail.ejs'); %>

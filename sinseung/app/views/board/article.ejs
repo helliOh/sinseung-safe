@@ -1,0 +1,121 @@
+<% 
+	var rootPath = '../'; 
+	let boardName = {
+		'notice': '공지사항',
+		'qna': 'Q&A',
+		'archive': '자료실',
+	};
+%>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section id="board">
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="#">게시판</a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/board/<%=category%>"><%=boardName[category]%></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/board/<%=category%>/<%=id%>"><%=id%></a>
+	</div>
+
+	<div class="article-wrapper">
+		<article>
+			<h1 class="card"><%=boardName[category]%></h1>
+			<div class="table-wrapper card">
+				<table class="board-article">
+					<thead>
+						<tr>
+							<th colspan="2" data-title></th>
+						</tr>
+						<tr>
+							<th width="10%">분류</th>
+							<th class="left-align" data-category></th>
+						</tr>
+						<tr>
+							<th width="10%">작성일</th>
+							<th class="left-align" data-date></th>
+						</tr>
+						<tr>
+							<th width="10%">작성자</th>
+							<th class="left-align" data-writer></th>
+						</tr>
+						<% if(category == 'archive'){ %>
+						<tr>
+							<th width="10%">첨부파일</th>
+							<th class="left-align" data-files></th>
+						</tr>
+						<input type="file" name="fileSource" style="display: none;">
+						<% } %>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2">
+								<div data-content></div>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="of-hi">
+								<a href="/board/<%=category%>">
+									<div class="btn list">
+										<i class="xi-bars"></i>
+										목록으로
+									</div>
+								</a>
+								<% if(user.mb_level <= 2 || article.bd_mb_no == user.mb_no){ %>
+								<a href="/board/<%=category%>/<%=id%>/edit" class="edit-anchor">
+									<div class="btn edit right">
+										수정
+									</div>
+								</a>
+								<a href="/board/<%=category%>/<%=id%>/delete" class="delete-anchor">
+									<div class="btn delete right">
+										삭제
+									</div>
+								</a>
+								<% } %>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<div class="table-wrapper comments-wrapper card">
+				<ul class="comments">
+					<!--
+					<li data-no>
+						<div class="head">
+							<div class="left" data-name></div>
+							<div class="right" data-date></div>
+						</div>
+						<div class="body" data-contents></div>
+						<div class="editbox">
+							<div class="btn edit"></div>
+							<div class="btn delete"></div>
+						</div>
+					</li>
+					-->
+				</ul>
+				<div class="write-comment">
+					<div class="head">댓글 작성</div>
+					<div class="of-hi">
+						<textarea name="comment" class="left"></textarea>
+						<div class="btn submit">작성하기</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+</section>
+
+<script src="/js/board/article.js"></script>
+<script>
+	let article = new Article(gUser, '<%=category%>', <%- JSON.stringify(article); %>);
+	
+	<% if(typeof comments != 'undefined' && category != 'notice'){ %>
+		article.setComments(<%- JSON.stringify(comments); %>);
+	<% } %>
+</script>
+<%- include(rootPath+'parts/tail.ejs'); %>

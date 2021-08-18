@@ -1,0 +1,10 @@
+<div class="login-info">
+	<!-- 로그인 완료 시 -->
+	<% if( typeof user !== 'undefined'){ %>
+	<a><span class="color-blue"><%=user.mb_name%></span>님 환영합니다.</a>
+	<a href="/mypage" class="color-blue">마이페이지</a>
+	<a href="/logout" class="bold">로그아웃</a>
+	<% }else{ %>
+	<a href="/signup">회원가입</a>
+	<% } %>
+</div>

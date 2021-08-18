@@ -1,0 +1,131 @@
+<% var rootPath = './'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section>
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/mypage">마이페이지</a>
+	</div>
+	<div class="article-wrapper">
+		<article id="mypage">
+			<h1 class="card">마이페이지</h1>
+			<form>
+				<input type="hidden" name="mb_no" value="<%=user.mb_no%>">
+				<table class="table-form1 card">
+					<thead>
+						<tr>
+							<td colspan="2">
+								<p class="notice">
+									현재 비밀번호와 새 비밀번호는 비밀번호 변경 시에만 입력하세요.<br>
+									비밀번호 이외의 데이터 변경시에는 공백으로 비워두시기 바랍니다.
+								</p>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>이름</th>
+							<td><%=user.mb_name%></td>
+						</tr>
+						<tr>
+							<th>아이디</th>
+							<td><%=user.mb_id%></td>
+						</tr>
+						<tr>
+							<th>현재 비밀번호</th>
+							<td><input type="password" name="mb_password" placeholder="현재 비밀번호"></td>
+						</tr>
+						<tr>
+							<th>새 비밀번호</th>
+							<td><input type="password" name="new_password" placeholder="새 비밀번호"></td>
+						</tr>
+						<tr>
+							<th>새 비밀번호 확인</th>
+							<td><input type="password" name="new_password_check" placeholder="새 비밀번호 확인"></td>
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<td><input type="email" name="mb_email" value="<%=user.mb_email%>"></td>
+						</tr>
+						<tr>
+							<th>가입일</th>
+							<td><%=user.created_at%></td>
+						</tr>
+						<tr>
+							<th>소속</th>
+							<td><%=user.mb_company%></td>
+						</tr>
+						<tr>
+							<th>직책</th>
+							<td><%=user.mb_position%></td>
+						</tr>
+						<tr>
+							<th>소득구분</th>
+							<td><%=user.mb_income_class%></td>
+						</tr>
+						<tr>
+							<th>권한</th>
+							<td><%=user.mb_level%></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="center-align">
+								<input type="submit" class="btn submit" value="저장">
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</article>
+	</div>
+</section>
+
+<script>
+	$('form').submit(function(e){
+		e.preventDefault();
+
+		let pw = $('input[name="mb_password"]').val().replace(' ','');
+		let newPw = $('input[name="new_password"]').val().replace(' ','');
+		let newPwCheck = $('input[name="new_password_check"]').val().replace(' ','');
+		let pwValid = false;
+
+		if(pw.length==0 && newPw.length==0 && newPwCheck.length==0)
+			pwValid = true;
+		else if(pw.length!=0 && (newPw.length==0 || newPwCheck.length==0)){
+			alert('새 비밀번호를 입력해주세요.');
+			return;
+		}else if(pw.length==0 && (newPw.length!=0 || newPwCheck.length!=0)){
+			alert('기존 비밀번호를 입력해주세요.');
+			return;
+		}else if(pw.length!=0 && newPw.length!=0 && newPwCheck.length!=0){
+			if(newPw==newPwCheck)
+				pwValid=true;
+			else{
+				alert('새 비밀번호가 일치하지 않습니다.');
+				return;
+			}
+		}
+
+		if(!pwValid)
+			return;
+
+		$('input[name="mb_password"]').val(pw);
+
+		let data = $(this).serialize();
+		gAJAX('/mypage', 'POST', data, function(e){
+			if(data.head.status == false){
+				alert('error occured');
+				for( i in data.head.err)
+					console.log(data.head.err[i]);
+			}else{
+				alert('변경사항이 저장되었습니다.');
+				location.reload();
+			}
+		});
+	})
+</script>
+
+<%- include(rootPath+'parts/tail.ejs'); %>

@@ -1,0 +1,57 @@
+<% var rootPath = './'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<section id="index">
+	<div class="article-wrapper">
+		<article id="notice" class="center">
+			<h1 class="card left-align">공지사항</h1>
+			<div class="table-wrapper">
+				<table class="board card">
+				<thead>
+					<tr>
+						<th data-no>글번호</th>
+						<th data-category>분류</th>
+						<th data-title>제목</th>
+						<th data-writer>작성자</th>
+						<th data-date>작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- <tr>
+						<td data-no>1</td>
+						<td data-category>공지</td>
+						<td data-title>테스트 제목</td>
+						<td data-writer>홍길동</td>
+						<td data-date>2018-01-01</td>
+					</tr> -->
+				</tbody>
+			</table>
+			<%- include(rootPath+'parts/board-pagination.ejs'); %>
+			<script src="/js/board/board.js"></script>
+			<script>
+				let category = 'notice';
+				let data = <%- JSON.stringify(board.body); %>;
+
+				let bd = new Board(category, data, false);
+			</script>
+
+			</div>
+		</article>
+
+		<article id="schedule" class="center">
+			<h1 class="card left-align">일정</h1>
+			
+			<%- include(rootPath+'parts/schedule.table.ejs'); %>			
+		</article>
+	</div>
+</section>
+
+<script>
+	// init table row link
+	$('.notice-table tbody tr').click(function(){
+		location.href=$(this).data('href');
+	});
+</script>
+
+<%- include(rootPath+'parts/tail.ejs'); %>

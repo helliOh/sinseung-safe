@@ -1,0 +1,138 @@
+<table class="board card">
+	<thead>
+		<tr>
+			<th class="center-align">글번호</th>
+			<th>제목</th> 
+			<th>작성자</th>
+			<th>작성일</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- board data -->
+	</tbody>
+</table>
+
+<script>
+	var Board = function(){
+		Board.data = null;
+		Board.headAnchorData = [];
+		Board.normalData = [];
+
+		Board.initialize = function(){
+
+		};
+
+		Board.prototype.setData = function(data){
+			Board.data = data;
+
+			for(let i in Board.data){
+				if(Board.data[i].bd_head_anchor == 1)
+					Board.headAnchorData.push(Board.data[i]);
+				else
+					Board.normalData.push(Board.data[i]);
+			}
+
+			Board.createDOM();
+		};
+
+		Board.createTableRow = function($target, bd){
+			for(let i in bd){
+				let $tr = $('<tr data-trigger="'+bd[i].bd_no+'"></tr>');
+				if(bd[i].bd_head_anchor == 1)
+					$tr.attr('head-anchor', true);
+				$tr.append('<td>'+bd[i].bd_no+'</td>');
+				$tr.append('<td>['+bd[i].bd_company+'] '+bd[i].bd_name+'</td>');
+				$tr.append('<td>'+bd[i].bd_mb_name+'</td>');
+				$tr.append('<td>'+bd[i].created_at+'</td>');
+				$target.append($tr);
+
+				let $content = $('<tr head-anchor data-content="'+bd[i].bd_no+'" class="content-row"></tr>');
+				$content.append('<td colspan="4"></td>');
+				$content.find('td').append(Board.createContent(bd[i]));
+				$target.append($content);
+			}
+		};
+		Board.createContent = function(row){
+			let $table = $('<table class="board-content-table"></table>');
+			let $thead = $('<thead></thead>');
+			let $tbody = $('<tbody></tbody>');
+			$thead.append('<tr data-title><th colspan="4">'+row.bd_name+'</th></tr>');
+			$thead.append('<tr data-company><th colspan="4">'+row.bd_company+'</th></tr>');
+			$thead.append('<tr><th>작성자</th><th>'+row.bd_mb_name+'</th><th>작성일</th><th>'+row.created_at+'</th></tr>');
+			$tbody.append('<tr><td colspan="4"><pre>'+row.bd_contents+'</pre></td></tr>');
+
+			$table.append($thead);
+			$table.append($tbody);
+
+			return $table;
+		}
+		Board.createDOM = function(){
+			$target = $('table.board tbody').empty();
+
+			Board.createTableRow($target, Board.headAnchorData);
+			Board.createTableRow($target, Board.normalData);
+
+			Board.initBoardEvent();	
+		};
+		Board.initBoardEvent = function(){
+			$('tr[data-trigger]').unbind().click(function(){
+				let dataNo = $(this).attr('data-trigger');
+				let $contentRow = $('tr[data-content="'+dataNo+'"]');
+
+				if($contentRow.hasClass('active'))
+					$contentRow.removeClass('active');
+				else{
+					$('tr[data-content]').removeClass('active');
+					$contentRow.addClass('active');
+				}
+			});
+		};
+	};
+</script>
+<script>
+	var bd = new Board();
+
+	<% if(typeof board != 'undefined'){ %>
+		bd.setData(<%- JSON.stringify(board.body) %>);
+	<% } %>;
+
+</script>
+<!--
+<ul class="pagination">
+	<li class="prev"><i class="xi-angle-left"></i></li>
+	<li data-no="1">1</li>
+	<li data-no="2">2</li>
+	<li data-no="3">3</li>
+	<li data-no="4">4</li>
+	<li data-no="5">5</li>
+	<li class="next"><i class="xi-angle-right"></i></li>
+</ul>
+
+<script>
+
+	var Pagination = function(){
+		this.currentPage;
+		this.maxPage;
+		this.ajaxInProgress;
+
+		this.initialize = function(maxPage){
+			this.range = 5;
+			this.currentPage = 1;
+			this.maxPage = maxPage;
+			this.ajaxInProgress = false;
+
+			$('.pagination li[data-no="'+this.currentPage+'"]').addClass('active');
+
+			$('.pagination li:not(.active)').click(function(){
+
+				var data = $(this).data('no');
+				$('.pagination li').removeClass('active');
+				$('.pagination li[data-no="'+data+'"]').addClass('active');
+			})
+		}
+	};
+	var pagination = new Pagination();
+	pagination.initialize(23);
+	
+</script>
+-->

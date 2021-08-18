@@ -1,0 +1,29 @@
+<% var rootPath = '../'; %>
+<%- include(rootPath+'parts/head.ejs'); %>
+<%- include(rootPath+'parts/aside.ejs'); %>
+
+<%
+	var subMenu = {
+		'overdue': '연체조회',
+		'upload': '파일 업로드',
+	};
+%>
+
+<section>
+	<div class="breadcrumb">
+		<a href="/"><i class="xi-home"></i></a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/payment/overdue">결제관리</a>
+		<i class="xi-angle-right-min"></i>
+		<a href="/payment/<%=category%>"><%=subMenu[category]%></a>
+	</div>
+	<div class="article-wrapper">
+		<article id="payment">
+			<h1 class="card"><%=subMenu[category]%></h1>
+			
+			<%- include(category+'.ejs'); %>
+		</article>
+	</div>
+</section>
+
+<%- include(rootPath+'parts/tail.ejs'); %>
